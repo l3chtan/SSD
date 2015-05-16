@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE person SYSTEM "jeopardy.dtd">
+<jeopardy>
+	<categories>
+		<category name="ScienceFicton">
+			<question id="1">
+				<text>
+					42	
+				</text>
+				<answer correct="yes">
+					Was ist die Antwort auf die Frage nach dem Leben dem Universum und allem?
+				</answer>
+				<answer>
+					Hae, was is das?
+				</answer>
+				<answer correct="yes">
+					Was ist in diesem Übungsbeispiel hoffentlich die meistverwendete Frage?
+				</answer>
+			</question>
+			<question id="2">
+				<text>
+					Captain Picard
+				</text>
+				<answer>
+					Wer kommandiert das Raumschiff Pegasus um Frodo nach Mordor zu bringen und Harry dabei zu helfen die Romulaner zu bekaempfen?
+				</answer>
+				<answer correct="yes">
+					Wer kommandiert das Raumschiff Enterprise im 24. Jahrhundert?
+				</answer>
+				<answer correct="yes">
+					Wer ist Professor X noch?
+				</answer>
+			</question>
+
+		</category>
+		<category name="TU">
+			<question id="3">
+				<text>
+					Rosa
+				</text>
+				<answer correct="yes">
+					Welche Farbe hat die Wand der Fachschaft Physik?
+				</answer>
+				<answer>
+					Ich hab ein knall ... Gummibot
+				</answer>
+				<answer>
+					Wonach riechen Rosen?
+				</answer>
+			</question>
+			<question id="4">
+				<text>
+					Am Karlsplatz
+				</text>
+				<answer correct="yes">
+					Wo ist das Hauptgebaeude der TU Wien?
+				</answer>
+				<answer correct="yes">
+					Wo ist die Kalrskirche?
+				</answer>
+				<answer>
+					Wo sind die Junkies?
+				</answer>
+			</question>
+		</category>
+		<category name="Misc">
+			<question id="5">
+				<text>
+					Deine Mama
+				</text>
+				<answer correct="yes">
+					Was ist groeßer als das Universum?
+				</answer>
+				<answer correct="yes">
+					Wessen Name ist der einzige den man taetowieren sollte?
+				</answer>
+				<answer>
+					Wer ist dein Papa?
+				</answer>
+			</question>
+			<question id="6">
+				<text>
+					Rindssuppe
+				</text>
+				<answer>
+					Was esse ich heute zu Mittag?
+				</answer>
+				<answer correct="yes">
+					Was habe ich vor kurzem zu Mittag gegessen?
+				</answer>
+				<answer>
+					Bin ich veganer?
+				</answer>
+			</question>
+		</category>
+	</categories>
+	<users>
+		<user username="maxl" gender="male">
+			<password>
+				deinemama
+			</password>
+			<fullname>
+				Max Mustermann
+			</fullname>
+			<birthdate>1983-01-12</birthdate>
+			<email>
+				foo@bar.com
+			</email>
+		</user>
+		<user username="daTirola" gender="male">
+			<password>
+				deinpapa
+			</password>
+			<fullname>
+				Anton
+			</fullname>
+			<birthdate>1980-04-18</birthdate>
+			<email>
+				bar@foo.com
+			</email>
+		</user>
+		<user username="Tinii" gender="female">
+			<password>
+				deineschwester
+			</password>
+			<fullname>
+				Tina Friedrich
+			</fullname>
+			<birthdate>1974-02-01</birthdate>
+			<email>
+				blubb@bar.at
+			</email>
+		</user>
+		<user username="maria" gender="female">
+			<password>
+				deinbruder
+			</password>
+			<name>
+				<firstname>
+					Maria
+				</firstname>
+				<lastname>
+					Pirker
+				</lastname>
+			</name>
+			<birthdate>1990-10-05</birthdate>
+			<email>
+				hau@drauf.at
+			</email>
+		</user>
+	</users>
+	<games>
+		<game session="id1">
+			<player ref="daTirola"/>
+			<player ref="Tinii"/>
+			<asked question="2">
+				<givenanswer player="daTirola">
+					Wofuer ist Patrick Stewart bekannt?
+				</givenanswer>
+			</asked>
+			<asked question="5">
+				<givenanswer player="Tinii">
+					Was ist groeßer als das Universum?
+				</givenanswer>
+			</asked>
+		</game>
+	</games>
+</jeopardy>

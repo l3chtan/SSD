@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="jeopardy"> 
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="overview" minOccurs="0" type="overviewType"/>		
+				<xsd:element name="categories" minOccurs="0" type="categoriesType"/>
+				<xsd:element name="users" minOccurs="0" type="usersType"/>
+				<xsd:element name="games" minOccurs="0" type="gamesType"/>
+			</xsd:sequence>			
+		</xsd:complexType>
+						<!-- ########## Uniques and Keys ########### -->
+							<xsd:unique name="uniqueCategoryName">
+								<xsd:selector xpath="categories/category"/>
+								<xsd:field xpath="@name"/>
+							</xsd:unique>
+							<xsd:key name="questionKeys">
+								<xsd:selector xpath="categories/category/question"/>
+								<xsd:field xpath="@id"/>
+							</xsd:key>
+							<xsd:keyref name="refquestionKeys" refer="questionKeys">
+								<xsd:selector xpath="games/game/asked"/>
+								<xsd:field xpath="@question"/>
+							</xsd:keyref>
+							<xsd:key name="userKeys">
+								<xsd:selector xpath="users/user"/>
+								<xsd:field xpath="@username"/>
+							</xsd:key>
+							<xsd:keyref name="refuserKeys" refer="userKeys">
+								<xsd:selector xpath="games/game/asked"/>
+								<xsd:field xpath="@player"/>
+							</xsd:keyref>
+							<xsd:keyref name="refUsernameAnswer" refer="userKeys">
+								<xsd:selector xpath="games/game/player"/>
+								<xsd:field xpath="@ref"/>
+							</xsd:keyref>
+
+							<xsd:unique name="uniqueSession">
+								<xsd:selector xpath="games/game"/>
+								<xsd:field xpath="@session"/>
+							</xsd:unique>
+	</xsd:element>
+
+<!-- #######Types and subtypes for overviewType ######################################### -->
+		<xsd:complexType name="overviewType" mixed="true">
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element name="a" minOccurs="0" maxOccurs="unbounded" type="aType"/>
+				<xsd:element name="p" minOccurs="0" maxOccurs="unbounded" type="pType"/>
+			</xsd:choice>
+		</xsd:complexType>
+
+			<xsd:complexType name="aType" mixed="true">
+				<xsd:attribute name="href" type="xsd:string"/>
+			</xsd:complexType>
+			<xsd:complexType name="pType" mixed="true">
+				<xsd:choice minOccurs="0" maxOccurs="unbounded">
+					<!-- ### Hässlich wegen doppeltem Code. Muss ich noch umschreiben -->
+					<xsd:element name="a" minOccurs="0" maxOccurs="unbounded" type="aType"/>
+					<xsd:element name="p" minOccurs="0" maxOccurs="unbounded" type="pType"/>
+					<!-- ### -->
+				</xsd:choice>
+			</xsd:complexType>
+
+<!-- #######Types and subtypes for categoriesType ####################################### -->
+		<xsd:complexType name="categoriesType">
+			<xsd:sequence>
+				<xsd:element name="category" maxOccurs="unbounded" type="categoryType"/>
+			</xsd:sequence>
+		</xsd:complexType>
+
+			<xsd:complexType name="categoryType" mixed="true">
+				<xsd:sequence>
+					<xsd:element name="question" minOccurs="0" maxOccurs="unbounded" type="questionType"/>
+				</xsd:sequence>
+				<xsd:attribute name="name" type="xsd:string"/>
+			</xsd:complexType>
+
+				<xsd:complexType name="questionType">
+					<xsd:sequence>
+						<xsd:element name="text" type="xsd:string"/>
+						<xsd:element name="answer" minOccurs="2" maxOccurs="unbounded" type="answerType"/>
+					</xsd:sequence>
+					<xsd:attribute name="id" type="idType" use="required"/>
+					<xsd:attribute name="value" type="valueType"/>
+				</xsd:complexType>
+
+						<xsd:complexType name="answerType" mixed="true">
+							<xsd:attribute name="correct" type="correctType" default="no"/>
+						</xsd:complexType>
+
+							<xsd:simpleType name="correctType">
+								<xsd:restriction base="xsd:string">
+									<xsd:enumeration value="yes"/>
+									<xsd:enumeration value="no"/>
+								</xsd:restriction>
+							</xsd:simpleType>
+
+						<xsd:simpleType name="idType">
+							<xsd:restriction base="xsd:integer">
+								<xsd:minExclusive value="0"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+						<xsd:simpleType name="valueType">
+							<xsd:restriction base="xsd:integer">
+								<xsd:enumeration value="100"/>
+								<xsd:enumeration value="200"/>
+								<xsd:enumeration value="500"/>
+								<xsd:enumeration value="750"/>
+								<xsd:enumeration value="1000"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+
+<!-- #######Types and subtypes for usersType ############################################ -->
+		<xsd:complexType name="usersType">
+			<xsd:sequence maxOccurs="unbounded">
+				<xsd:element name="user" type="userType"/>
+			</xsd:sequence>
+		</xsd:complexType>
+
+			<xsd:complexType name="userType">
+				<xsd:sequence>
+					<xsd:element name="password"/>
+					<xsd:choice>
+						<xsd:element name="fullname" type="xsd:string"/>
+						<xsd:element name="name" type="nameType"/>
+					</xsd:choice>
+					<xsd:element name="birthdate" type="xsd:date"/>
+					<xsd:sequence maxOccurs="unbounded">
+						<xsd:element name="email" type="xsd:string"/>
+					</xsd:sequence>
+				</xsd:sequence>
+				<xsd:attribute name="username" type="xsd:string" use="required"/>
+				<xsd:attribute name="gender" type="genderType"/>
+			</xsd:complexType>
+
+				<xsd:simpleType name="genderType">
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="male"/>
+						<xsd:enumeration value="female"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+
+				<xsd:complexType name="nameType">
+					<xsd:sequence>
+						<xsd:element name="firstname" type="xsd:string"/>
+						<xsd:element name="lastname" type="xsd:string"/>
+					</xsd:sequence>
+				</xsd:complexType>
+
+<!-- #######Types and subtypes for gamesType ############################################ -->
+		<xsd:complexType name="gamesType">
+			<xsd:sequence maxOccurs="unbounded">
+				<xsd:element name="game" type="gameType"/>
+			</xsd:sequence>
+		</xsd:complexType>
+
+			<xsd:complexType name="gameType">
+				<xsd:sequence>
+					<xsd:element name="player" minOccurs="2" maxOccurs="2" type="playerType"/>
+					<xsd:element name="asked" maxOccurs="10" type="askedType"/>
+				</xsd:sequence>
+				<xsd:attribute name="session" type="xsd:string"/>
+			</xsd:complexType>
+
+				<xsd:complexType name="playerType">
+					<xsd:attribute name="ref" type="xsd:string"/>
+				</xsd:complexType>
+				<xsd:complexType name="askedType">
+					<xsd:sequence maxOccurs="unbounded">
+						<xsd:element name="givenanswer" type="givenanswerType"/>
+					</xsd:sequence>
+					<xsd:attribute name="question" type="idType"/>
+				</xsd:complexType>
+
+					<xsd:complexType name="givenanswerType" mixed="true">
+						<xsd:attribute name="player" use="required" type="xsd:string"/>
+					</xsd:complexType>
+</xsd:schema>
