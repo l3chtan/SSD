@@ -22,10 +22,21 @@
 			<xsd:field xpath="@id"/>
 		</xsd:key>
 
-    <xsd:keyref name="questionRefs" refer="questionKeys">
-      <xsd:selector xpath="games/game/asked"/>
-      <xsd:field xpath="@question"/>
-    </xsd:keyref>
+	  	<xsd:keyref name="questionRefs" refer="questionKeys">
+			<xsd:selector xpath="games/game/asked"/>
+			<xsd:field xpath="@question"/>
+		</xsd:keyref>
+
+		<xsd:unique name="categoryNameUnique">
+			<xsd:selector xpath="categories/category" />
+			<xsd:field xpath="@name" />
+		</xsd:unique>
+		
+		<xsd:unique name="sessionUnique">
+			<xsd:selector xpath="games/game" />
+			<xsd:field xpath="@session" />
+		</xsd:unique>
+
 	</xsd:element>
 	
 	<xsd:complexType name="jeopardy">
@@ -47,7 +58,7 @@
 		<xsd:sequence>
 		    <xsd:element name="question" type="question" minOccurs="0" maxOccurs="unbounded" />
 		</xsd:sequence>
-    <xsd:attribute name="name" type="xsd:ID" use="required"/>
+    <xsd:attribute name="name" type="xsd:string" use="required"/>
 	</xsd:complexType>
 	
 	<xsd:complexType name="question">
@@ -95,7 +106,7 @@
         <xsd:element name="email" type="xsd:string"/>
       </xsd:choice>
 		</xsd:sequence>
-		<xsd:attribute name="username" type="xsd:ID" use="required"/>
+		<xsd:attribute name="username" type="xsd:string" use="required"/>
 		<xsd:attribute name="gender" type="gender" use="optional"/>
 	</xsd:complexType>
 
@@ -122,7 +133,17 @@
 	
 	<xsd:complexType name="games">
 		<xsd:sequence>
-			<xsd:element name="game" type="game" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="game" type="game" minOccurs="0" maxOccurs="unbounded">
+			<!-- additional key to check if answer are given by the players in the respective game -->
+			<xsd:key name="gameUser">
+				<xsd:selector xpath="player" />
+				<xsd:field xpath="@ref" />
+			</xsd:key>
+			<xsd:keyref name="gameUserRef" refer="gameUser">
+				<xsd:selector xpath="asked/givenanswer" />
+				<xsd:field xpath="@player" />
+			</xsd:keyref>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	
@@ -131,11 +152,11 @@
 			<xsd:element name="player" type="player" minOccurs="1" maxOccurs="2"/>
 			<xsd:element name="asked" type="asked" minOccurs="0" maxOccurs="10"/>
 		</xsd:sequence>
-		<xsd:attribute name="session" type="xsd:ID" use="required"/>
+		<xsd:attribute name="session" type="xsd:string" use="required"/>
 	</xsd:complexType>
 	
 	<xsd:complexType name="player">
-		<xsd:attribute name="ref" type="xsd:IDREF" use="required"/>
+		<xsd:attribute name="ref" type="xsd:string"/>
 	</xsd:complexType>
 	
 	<xsd:complexType name="asked">
@@ -148,7 +169,7 @@
 	<xsd:complexType name="givenanswer">
 		<xsd:simpleContent>
 			<xsd:extension base="xsd:string">
-				<xsd:attribute name="player" type="xsd:IDREF" use="required" />
+				<xsd:attribute name="player" type="xsd:string" use="required" />
 			</xsd:extension>
 		</xsd:simpleContent>
 	</xsd:complexType>

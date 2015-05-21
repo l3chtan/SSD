@@ -99,7 +99,7 @@
         <givenanswer player="Bart">Who is Maria?</givenanswer>
         <givenanswer player="Lisa">Who is Maggie?</givenanswer>
       </asked>
-	  
+
 	  <asked question="4">
 	    <givenanswer player="Bart">Who is Sheldon Lee Cooper?</givenanswer>
 	    <givenanswer player="Lisa">Who is Sheldon Lee Cooper?</givenanswer>
@@ -109,10 +109,10 @@
 
 
     </game>
-	
+
     <game session="abc">
 		<player ref="Bart"/>
-		
+
 		<asked question="5">
 			<givenanswer player="Bart">What is Object Oriented Modelling?</givenanswer>
 			<givenanswer player="Bart">What is Semistructured Data?</givenanswer>
